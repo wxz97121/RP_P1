@@ -122,8 +122,12 @@ namespace Sokoban
         {
             if (num >= LevelConfig.MapList.Count || num < 0) return;
             NowMap = (int[,])LevelConfig.MapList[num].Clone();
+            Row = NowMap.GetLength(0);
+            Column = NowMap.GetLength(1);
+            /*
             Row = LevelConfig.RowList[num];
             Column = LevelConfig.ColumnList[num];
+            */
             TargetX = LevelConfig.TargetXList[num];
             TargetY = LevelConfig.TargetYList[num];
             NowAblitiesChosen = 0;
@@ -155,7 +159,6 @@ namespace Sokoban
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             _LevelData = new LevelConfig();
             GameSprite = new List<Texture2D>();
             NowLevelIndex = 0;
@@ -178,7 +181,6 @@ namespace Sokoban
 
 
 
-            // TODO: use this.Content to load your game content here
         }
         private KeyboardState PreviousState;
         private MouseState PreviousMouseState;
@@ -245,7 +247,6 @@ namespace Sokoban
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
             if (CheckPressed(Keys.Up) && CanUp)
                 if (Move(PlayerX, PlayerY, 0)) NowDir = 0;
             if (CheckPressed(Keys.Down) && CanDown)
@@ -262,6 +263,8 @@ namespace Sokoban
             if (CheckPressed(Keys.Z)) Undo();
             if (CheckPressed(Keys.P)) LoadLevel(NowLevelIndex - 1);
             if (CheckPressed(Keys.N)) LoadLevel(NowLevelIndex + 1);
+
+            //TODO: Lock the abilities after player start moving.
             if (CheckLMBClicked())
             {
                 for (int i = 0; i < AbilityBtn.Count; i++)
@@ -293,8 +296,6 @@ namespace Sokoban
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
             _spriteBatch.Begin();
 
             for (int i = 0; i < Row; i++)
@@ -310,6 +311,7 @@ namespace Sokoban
             {
                 AbilityBtn[i].Draw();
             }
+            //TODO: Show how many abilities are allowed to choose for this level.
             _spriteBatch.End();
             base.Draw(gameTime);
         }

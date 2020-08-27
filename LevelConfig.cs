@@ -7,7 +7,7 @@ namespace Sokoban
     class LevelConfig
     {
         public readonly static List<int[,]> MapList = new List<int[,]>();
-        public readonly static List<int> ColumnList = new List<int>(), RowList = new List<int>();
+//        public readonly static List<int> ColumnList = new List<int>(), RowList = new List<int>();
         public readonly static List<int> TargetXList = new List<int>(), TargetYList = new List<int>();
         public readonly static List<int> AbilitySlotList = new List<int>();
         public readonly static List<List<string>> AbilityList = new List<List<string>>();
@@ -28,8 +28,8 @@ namespace Sokoban
                 {3,3,0,3,3 },
                 {3,3,2,3,3 }
             });
-            ColumnList.Add(5);
-            RowList.Add(5);
+//            ColumnList.Add(5);
+//            RowList.Add(5);
             TargetXList.Add(0);
             TargetYList.Add(2);
             AbilitySlotList.Add(1);
@@ -43,8 +43,8 @@ namespace Sokoban
                 {0,1,1,0 },
                 {2,0,0,1 }
 });
-            ColumnList.Add(4);
-            RowList.Add(4);
+//            ColumnList.Add(4);
+//            RowList.Add(4);
             TargetXList.Add(0);
             TargetYList.Add(3);
             AbilitySlotList.Add(3);
@@ -62,8 +62,8 @@ namespace Sokoban
                 {0,1,0,0,3 },
                 {0,2,0,0,3 }
 });
-            ColumnList.Add(5);
-            RowList.Add(7);
+//            ColumnList.Add(5);
+//            RowList.Add(7);
             TargetXList.Add(0);
             TargetYList.Add(1);
             AbilitySlotList.Add(5);

@@ -13,6 +13,9 @@ namespace Sokoban
         Texture2D m_Texture;
         public bool isChecked = false;
         public string Name;
+
+        int height_button = 64;
+        int width_button = 64;
         public int ButtonX
         {
             get
@@ -48,10 +51,10 @@ namespace Sokoban
         **/
         public bool enterButton()
         {
-
-            if (Mouse.GetState().X < buttonX + m_Texture.Width / 4 &&
+            
+            if (Mouse.GetState().X < buttonX + width_button &&
                     Mouse.GetState().X > buttonX &&
-                    Mouse.GetState().Y < buttonY + m_Texture.Height / 4 &&
+                    Mouse.GetState().Y < buttonY + height_button &&
                     Mouse.GetState().Y > buttonY)
             {
                 return true;
@@ -67,7 +70,7 @@ namespace Sokoban
 
         public void Draw()
         {
-            Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, m_Texture.Width / 4, m_Texture.Height / 4), isChecked ? Color.Blue : Color.White);
+            Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), isChecked ? Color.Blue : Color.White);
         }
     }
 }

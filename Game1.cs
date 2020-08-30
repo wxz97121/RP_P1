@@ -14,6 +14,8 @@ namespace Sokoban
         public static ContentManager m_Content;
         //public static int BtnWidth = 200, BtnHeight = 200;
 
+        private Stack<int[,]> history = new Stack<int[,]>();
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         List<Texture2D> GameSprite;
@@ -28,6 +30,7 @@ namespace Sokoban
 
         int NowAblitiesChosen = 0;
         public List<Button> AbilityBtn;
+        public Button restartBtn;
         /*
         public Button UpBtn, DownBtn, LeftBtn, RightBtn, PullBtn, MultiBtn;
         public Texture2D UpSprite, DownSprite, LeftSprite, RightSprite, PullSprite, MultiSprite;
@@ -53,8 +56,10 @@ namespace Sokoban
                 return true;
             return false;
         }
-        void Undo()
+         void Undo()
         {
+
+            //history.Pop().Undo();
             return;
             //TODO: Undo feature
         }
@@ -83,12 +88,15 @@ namespace Sokoban
             // 1 box
             // 2 player
             // 3 wall
+            // 4 rocks
             if (NowMap[tarx, tary] == 0)
             {
                 NowMap[tarx, tary] = NowMap[nowx, nowy];
                 NowMap[nowx, nowy] = 0;
                 if (CanPull) ProcessPull(nowx, nowy, Dir);
                 return true;
+
+
             }
             else if (NowMap[tarx, tary] == 1)
             {
@@ -114,8 +122,20 @@ namespace Sokoban
                         return true;
                     }
                 }
+
             }
-            return false;
+            else if (NowMap[tarx, tary] == 4)
+            {
+                if (CanDestroy) 
+                {
+                    NowMap[tarx, tary] = NowMap[nowx, nowy];
+                    NowMap[nowx, nowy] = 0;
+                    return true;
+
+                }
+              
+            }
+                return false;
 
         }
         void LoadLevel(int num)
@@ -133,6 +153,8 @@ namespace Sokoban
             NowAblitiesChosen = 0;
             MaxAblitiesNum = LevelConfig.AbilitySlotList[num];
             AbilityBtn = new List<Button>();
+            restartBtn = new Button("restart",400,100);
+            
             CanUp = CanDown = CanLeft = CanRight = CanPull = CanPushMulti = CanDestroy = false;
 
             NowDir = 0;
@@ -140,6 +162,7 @@ namespace Sokoban
             {
                 AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 550, 50 * i));
             }
+
 
             UpdatePlayerPos();
             NowLevelIndex = num;
@@ -178,8 +201,6 @@ namespace Sokoban
             GameSprite.Add(Content.Load<Texture2D>("Sprite/TileBoom"));
 
             TargetSprite = Content.Load<Texture2D>("Sprite/Win");
-
-
 
         }
         private KeyboardState PreviousState;
@@ -265,6 +286,7 @@ namespace Sokoban
             if (CheckPressed(Keys.N)) LoadLevel(NowLevelIndex + 1);
 
             //TODO: Lock the abilities after player start moving.
+          
             if (CheckLMBClicked())
             {
                 for (int i = 0; i < AbilityBtn.Count; i++)
@@ -283,6 +305,12 @@ namespace Sokoban
                             OnButtonClicked(AbilityBtn[i].Name);
                         }
                     }
+                if (restartBtn.enterButton())
+                {
+
+                    LoadLevel(NowLevelIndex);
+                }
+
             }
 
             UpdateState();
@@ -311,6 +339,7 @@ namespace Sokoban
             {
                 AbilityBtn[i].Draw();
             }
+            restartBtn.Draw();
             //TODO: Show how many abilities are allowed to choose for this level.
             _spriteBatch.End();
             base.Draw(gameTime);

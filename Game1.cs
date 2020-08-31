@@ -14,7 +14,7 @@ namespace Sokoban
         public static ContentManager m_Content;
         //public static int BtnWidth = 200, BtnHeight = 200;
 
-        private Stack<int[,]> history = new Stack<int[,]>();
+        // private Stack<int[,]> history = new Stack<int[,]>();
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -23,6 +23,7 @@ namespace Sokoban
         int PlayerX, PlayerY; // where the player is.
         int TargetX, TargetY;
         int[,] NowMap;
+        public List<int[,]> History;
         int Row, Column, NowLevelIndex;
         int MaxAblitiesNum = 1;
         int NowDir = 0;
@@ -30,6 +31,7 @@ namespace Sokoban
 
         int NowAblitiesChosen = 0;
         public List<Button> AbilityBtn;
+
         public Button restartBtn;
         /*
         public Button UpBtn, DownBtn, LeftBtn, RightBtn, PullBtn, MultiBtn;
@@ -56,10 +58,14 @@ namespace Sokoban
                 return true;
             return false;
         }
-         void Undo()
+        void Undo()
         {
+            if (History.Count <= 1)
+                return;
+            History.RemoveAt(History.Count - 1);
+            NowMap = History[History.Count - 1].Clone() as int[,];
 
-            //history.Pop().Undo();
+            UpdatePlayerPos();
             return;
             //TODO: Undo feature
         }
@@ -126,22 +132,24 @@ namespace Sokoban
             }
             else if (NowMap[tarx, tary] == 4)
             {
-                if (CanDestroy) 
+                if (CanDestroy)
                 {
                     NowMap[tarx, tary] = NowMap[nowx, nowy];
                     NowMap[nowx, nowy] = 0;
                     return true;
 
                 }
-              
+
             }
-                return false;
+            return false;
 
         }
         void LoadLevel(int num)
         {
             if (num >= LevelConfig.MapList.Count || num < 0) return;
             NowMap = (int[,])LevelConfig.MapList[num].Clone();
+            History = new List<int[,]>();
+            History.Add(NowMap.Clone() as int[,]);
             Row = NowMap.GetLength(0);
             Column = NowMap.GetLength(1);
             /*
@@ -153,8 +161,8 @@ namespace Sokoban
             NowAblitiesChosen = 0;
             MaxAblitiesNum = LevelConfig.AbilitySlotList[num];
             AbilityBtn = new List<Button>();
-            restartBtn = new Button("restart",400,100);
-            
+            restartBtn = new Button("restart", 400, 100);
+
             CanUp = CanDown = CanLeft = CanRight = CanPull = CanPushMulti = CanDestroy = false;
 
             NowDir = 0;
@@ -263,20 +271,34 @@ namespace Sokoban
             }
             return false;
         }
-        protected override void Update(GameTime gameTime)
+        void UpdateKeyboardInput()
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
             if (CheckPressed(Keys.Up) && CanUp)
-                if (Move(PlayerX, PlayerY, 0)) NowDir = 0;
+                if (Move(PlayerX, PlayerY, 0))
+                {
+                    NowDir = 0;
+                    History.Add(NowMap.Clone() as int[,]);
+                }
             if (CheckPressed(Keys.Down) && CanDown)
-                if (Move(PlayerX, PlayerY, 1)) NowDir = 1;
+                if (Move(PlayerX, PlayerY, 1))
+                {
+                    NowDir = 1;
+                    History.Add(NowMap.Clone() as int[,]);
+                }
             if (CheckPressed(Keys.Left) && CanLeft)
-                if (Move(PlayerX, PlayerY, 2)) NowDir = 2;
-            if (CheckPressed(Keys.Right) && CanRight)
-                if (Move(PlayerX, PlayerY, 3)) NowDir = 3;
 
+                if (Move(PlayerX, PlayerY, 2))
+                {
+                    NowDir = 2;
+                    History.Add(NowMap.Clone() as int[,]);
+                }
+            if (CheckPressed(Keys.Right) && CanRight)
+                if (Move(PlayerX, PlayerY, 3))
+                {
+                    NowDir = 3;
+                    History.Add(NowMap.Clone() as int[,]);
+                }
             if (CheckPressed(Keys.E) && CanDestroy)
                 DestroyBox(PlayerX, PlayerY, NowDir);
 
@@ -284,9 +306,9 @@ namespace Sokoban
             if (CheckPressed(Keys.Z)) Undo();
             if (CheckPressed(Keys.P)) LoadLevel(NowLevelIndex - 1);
             if (CheckPressed(Keys.N)) LoadLevel(NowLevelIndex + 1);
-
-            //TODO: Lock the abilities after player start moving.
-          
+        }
+        void UpdateMouseInput()
+        {
             if (CheckLMBClicked())
             {
                 for (int i = 0; i < AbilityBtn.Count; i++)
@@ -312,7 +334,16 @@ namespace Sokoban
                 }
 
             }
+        }
+        protected override void Update(GameTime gameTime)
+        {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                Exit();
+            UpdateKeyboardInput();
+            UpdateMouseInput();
 
+
+            //TODO: Lock the abilities after player start moving.
             UpdateState();
             UpdatePlayerPos();
             if (CheckForWin())

@@ -19,6 +19,7 @@ namespace Sokoban
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         List<Texture2D> GameSprite;
+        List<Texture2D> PlayerSprite;
         Texture2D TargetSprite;
         int PlayerX, PlayerY; // where the player is.
         int TargetX, TargetY;
@@ -193,7 +194,7 @@ namespace Sokoban
             _LevelData = new LevelConfig();
             GameSprite = new List<Texture2D>();
             NowLevelIndex = 0;
-
+            PlayerSprite = new List<Texture2D>();
             LoadLevel(0);
             base.Initialize();
         }
@@ -209,6 +210,11 @@ namespace Sokoban
             GameSprite.Add(Content.Load<Texture2D>("Sprite/rock 2x"));//rock
 
             TargetSprite = Content.Load<Texture2D>("Sprite/flag 2x");//flag
+
+            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body back 2x"));
+            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body 2x"));
+            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body Lside 2x"));
+            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body side 2x"));
 
         }
         private KeyboardState PreviousState;
@@ -361,6 +367,7 @@ namespace Sokoban
                 for (int j = 0; j < Column; j++)
                 {
                     Texture2D TarTexture = GameSprite[NowMap[i, j]];
+                    if (NowMap[i, j] == 2) TarTexture = PlayerSprite[NowDir];
                     _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64), Color.White);
                 }
             if (NowMap[TargetX, TargetY] == 0)

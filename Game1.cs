@@ -160,7 +160,7 @@ namespace Sokoban
             NowDir = 0;
             for (int i = 0; i < LevelConfig.AbilityList[num].Count; i++)
             {
-                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 550, 50 * i));
+                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 550, 64 * i));
             }
 
 
@@ -194,13 +194,13 @@ namespace Sokoban
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             m_SpriteBatch = _spriteBatch;
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/Space"));
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/box"));
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/Player"));
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/crack"));
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/TileBoom"));
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/white_space"));//space1
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/box 2x"));//box
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/body 2x"));
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/black_space"));//blackspace
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/rock 2x"));//rock
 
-            TargetSprite = Content.Load<Texture2D>("Sprite/Win");
+            TargetSprite = Content.Load<Texture2D>("Sprite/flag 2x");//flag
 
         }
         private KeyboardState PreviousState;
@@ -224,25 +224,25 @@ namespace Sokoban
         {
             switch (name)
             {
-                case "Up":
+                case "UP":
                     CanUp = !CanUp;
                     break;
-                case "Down":
+                case "DOWN":
                     CanDown = !CanDown;
                     break;
-                case "Left":
+                case "L":
                     CanLeft = !CanLeft;
                     break;
-                case "Right":
+                case "R":
                     CanRight = !CanRight;
                     break;
-                case "Pull":
+                case "pull":
                     CanPull = !CanPull;
                     break;
-                case "Multi":
+                case "push":
                     CanPushMulti = !CanPushMulti;
                     break;
-                case "Boom":
+                case "explosion":
                     CanDestroy = !CanDestroy;
                     break;
                 default:
@@ -330,10 +330,10 @@ namespace Sokoban
                 for (int j = 0; j < Column; j++)
                 {
                     Texture2D TarTexture = GameSprite[NowMap[i, j]];
-                    _spriteBatch.Draw(TarTexture, new Vector2(j * 50, i * 50), Color.White);
+                    _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64), Color.White);
                 }
             if (NowMap[TargetX, TargetY] == 0)
-                _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 50, TargetX * 50), Color.White);
+                _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64), Color.White);
 
             for (int i = 0; i < AbilityBtn.Count; i++)
             {

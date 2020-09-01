@@ -36,6 +36,7 @@ namespace Sokoban
         public List<Button> AbilityBtn;
 
         public Button restartBtn;
+        public Button undoBtn;
         /*
         public Button UpBtn, DownBtn, LeftBtn, RightBtn, PullBtn, MultiBtn;
         public Texture2D UpSprite, DownSprite, LeftSprite, RightSprite, PullSprite, MultiSprite;
@@ -94,6 +95,7 @@ namespace Sokoban
             HasBegun = true;
             int tarx = nowx + dx[Dir];
             int tary = nowy + dy[Dir];
+            int nowtile = NowMap[nowx, nowy];
             if (!CheckIfInRange(tarx, tary)) return false;
             //Debug.WriteLine(tarx.ToString()+" "+tary.ToString());
 
@@ -107,7 +109,7 @@ namespace Sokoban
             {
                 NowMap[tarx, tary] = NowMap[nowx, nowy];
                 NowMap[nowx, nowy] = 0;
-                if (CanPull) ProcessPull(nowx, nowy, Dir);
+                if (CanPull && nowtile == 2) ProcessPull(nowx, nowy, Dir);
                 return true;
 
 
@@ -122,7 +124,7 @@ namespace Sokoban
                         NowMap[tarx + dx[Dir], tary + dy[Dir]] = NowMap[tarx, tary];
                         NowMap[tarx, tary] = NowMap[nowx, nowy];
                         NowMap[nowx, nowy] = 0;
-                        if (CanPull) ProcessPull(nowx, nowy, Dir);
+                        if (CanPull && nowtile == 2) ProcessPull(nowx, nowy, Dir);
                         return true;
                     }
                 }
@@ -132,13 +134,13 @@ namespace Sokoban
                     {
                         NowMap[tarx, tary] = NowMap[nowx, nowy];
                         NowMap[nowx, nowy] = 0;
-                        if (CanPull) ProcessPull(nowx, nowy, Dir);
+                        if (CanPull && nowtile == 2) ProcessPull(nowx, nowy, Dir);
                         return true;
                     }
                 }
 
             }
-            else if (NowMap[tarx, tary] == 4 )
+            else if (NowMap[tarx, tary] == 4)
             {
                 if (CanDestroy)
                 {
@@ -184,8 +186,8 @@ namespace Sokoban
             NowAblitiesChosen = 0;
             MaxAblitiesNum = LevelConfig.AbilitySlotList[num];
             AbilityBtn = new List<Button>();
-            restartBtn = new Button("restart", 640, 100);
-
+            restartBtn = new Button("button_reset", 640, 100);
+            undoBtn = new Button("button_undo", 640, 200);
             CanUp = CanDown = CanLeft = CanRight = CanPull = CanPushMulti = CanDestroy = false;
 
             NowDir = 0;
@@ -364,11 +366,9 @@ namespace Sokoban
                             OnButtonClicked(AbilityBtn[i].Name);
                         }
                     }
-                if (restartBtn.enterButton())
-                {
+                if (restartBtn.enterButton()) LoadLevel(NowLevelIndex);
+                if (undoBtn.enterButton()) Undo();
 
-                    LoadLevel(NowLevelIndex);
-                }
 
             }
         }
@@ -409,6 +409,7 @@ namespace Sokoban
                 AbilityBtn[i].Draw();
             }
             restartBtn.Draw();
+            undoBtn.Draw();
             //TODO: Show how many abilities are allowed to choose for this level.
             if (MaxAblitiesNum - NowAblitiesChosen == 0)
             {

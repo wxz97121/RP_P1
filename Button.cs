@@ -67,11 +67,17 @@ namespace Sokoban
             isChecked = !isChecked;
             return isChecked;
         }
-
+        Color CalcColor()
+        {
+            if (Name.StartsWith("button"))
+            {
+                return Color.White;
+            }
+            return isChecked ? Color.Blue : Game1.HasBegun ? Color.Gray : Color.White;
+        }
         public void Draw()
         {
-            if (Name == "restart") Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), Color.White);
-            else Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), isChecked ? Color.Blue : Game1.HasBegun?Color.Gray: Color.White);
+            Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), CalcColor());
         }
     }
 }

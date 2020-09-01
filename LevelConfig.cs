@@ -28,8 +28,6 @@ namespace Sokoban
                 {3,3,0,3,3 },
                 {3,3,2,3,3 }
             });
-            //            ColumnList.Add(5);
-            //            RowList.Add(5);
             TargetXList.Add(0);
             TargetYList.Add(2);
             AbilitySlotList.Add(1);
@@ -43,12 +41,11 @@ namespace Sokoban
                 {0,1,1,0 },
                 {2,0,0,1 }
 });
-            //            ColumnList.Add(4);
-            //            RowList.Add(4);
             TargetXList.Add(0);
             TargetYList.Add(3);
             AbilitySlotList.Add(3);
             AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R" });
+
             //Level 03
             MapList.Add(new int[,]
             {
@@ -87,8 +84,6 @@ namespace Sokoban
                 {0,0,1,1,1,0,0 },
                 {3,5,1,0,1,8,3 }
 });
-            //            ColumnList.Add(5);
-            //            RowList.Add(7);
             TargetXList.Add(6);
             TargetYList.Add(3);
             AbilitySlotList.Add(3);
@@ -105,8 +100,6 @@ namespace Sokoban
                 {0,1,0,0,3 },
                 {0,2,0,0,3 }
 });
-            //            ColumnList.Add(5);
-            //            RowList.Add(7);
             TargetXList.Add(0);
             TargetYList.Add(1);
             AbilitySlotList.Add(4);
@@ -124,8 +117,6 @@ namespace Sokoban
                 {0,1,0,0,3 },
                 {0,2,0,0,3 }
 });
-            //            ColumnList.Add(5);
-            //            RowList.Add(7);
             TargetXList.Add(0);
             TargetYList.Add(1);
             AbilitySlotList.Add(5);

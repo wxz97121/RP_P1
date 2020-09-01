@@ -49,9 +49,52 @@ namespace Sokoban
             TargetYList.Add(3);
             AbilitySlotList.Add(3);
             AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R" });
-
-
             //Level 03
+            MapList.Add(new int[,]
+            {
+                { 5,0,0,1,0 },
+                { 0,0,0,1,0 },
+                { 2,0,0,1,0 },
+                { 0,0,0,1,0 },
+                { 6,0,0,1,0 },
+            });
+            TargetXList.Add(2);
+            TargetYList.Add(4);
+            AbilitySlotList.Add(4);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
+
+            //Level 04
+            MapList.Add(new int[,]
+{
+                { 0,2,1,0,0 },
+                { 0,0,1,0,0 },
+                { 1,1,5,1,1 },
+                { 3,0,1,0,0 },
+                { 3,3,1,0,6 },
+});
+            TargetXList.Add(3);
+            TargetYList.Add(1);
+            AbilitySlotList.Add(4);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
+            //Level 05
+            MapList.Add(new int[,]
+{
+                {7,0,0,1,0,0,6 },
+                {0,0,0,0,0,0,0 },
+                {0,0,1,1,1,0,0 },
+                {0,0,1,2,1,0,0 },
+                {0,0,1,1,1,0,0 },
+                {0,0,1,1,1,0,0 },
+                {3,5,1,0,1,8,3 }
+});
+            //            ColumnList.Add(5);
+            //            RowList.Add(7);
+            TargetXList.Add(6);
+            TargetYList.Add(3);
+            AbilitySlotList.Add(3);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R", "explosion" });
+
+            //Level 06
             MapList.Add(new int[,]
 {
                 {1,0,1,0,3 },
@@ -69,33 +112,25 @@ namespace Sokoban
             AbilitySlotList.Add(4);
             AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R", "explosion" });
 
-            //Level 04
-            MapList.Add(new int[,]
-            {
-                { 5,0,0,1,0 },
-                { 0,0,0,1,0 },
-                { 2,0,0,1,0 },
-                { 0,0,0,1,0 },
-                { 6,0,0,1,0 },
-            });
-            TargetXList.Add(2);
-            TargetYList.Add(4);
-            AbilitySlotList.Add(4);
-            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
 
-            //Level 05
+            //Level 07
             MapList.Add(new int[,]
 {
-                { 0,2,1,0,0 },
-                { 0,0,1,0,0 },
-                { 1,1,5,1,1 },
-                { 3,0,1,0,0 },
-                { 3,3,1,0,6 },
+                {1,0,1,0,3 },
+                {0,1,0,1,3 },
+                {3,0,1,4,1 },
+                {0,1,0,0,0 },
+                {4,1,3,1,0 },
+                {0,1,0,0,3 },
+                {0,2,0,0,3 }
 });
-            TargetXList.Add(3);
+            //            ColumnList.Add(5);
+            //            RowList.Add(7);
+            TargetXList.Add(0);
             TargetYList.Add(1);
-            AbilitySlotList.Add(4);
-            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
+            AbilitySlotList.Add(5);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R" });
+
         }
     }
 }

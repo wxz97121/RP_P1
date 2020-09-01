@@ -138,7 +138,7 @@ namespace Sokoban
                 }
 
             }
-            else if (NowMap[tarx, tary] == 4)
+            else if (NowMap[tarx, tary] == 4 )
             {
                 if (CanDestroy)
                 {
@@ -149,28 +149,20 @@ namespace Sokoban
                 }
 
             }
-            else if (NowMap[tarx, tary] == 5)
+            else if (NowMap[tarx, tary] >= 5 && NowMap[nowx, nowy] == 2)
             {
+                int PortalIndex = NowMap[tarx, tary];
+                int PortalPair = PortalIndex + 2 * (PortalIndex % 2) - 1;
                 for (int i = 0; i < Row; i++)
                     for (int j = 0; j < Column; j++)
-                        if (NowMap[i, j] == 6)
+                        if (NowMap[i, j] == PortalPair)
                         {
                             NowMap[i, j] = 2;
                             NowMap[tarx, tary] = 0;
                             NowMap[nowx, nowy] = 0;
                         }
             }
-            else if (NowMap[tarx, tary] == 6)
-            {
-                for (int i = 0; i < Row; i++)
-                    for (int j = 0; j < Column; j++)
-                        if (NowMap[i, j] == 5)
-                        {
-                            NowMap[i, j] = 2;
-                            NowMap[tarx, tary] = 0;
-                            NowMap[nowx, nowy] = 0;
-                        }
-            }
+
             return false;
 
         }
@@ -192,7 +184,7 @@ namespace Sokoban
             NowAblitiesChosen = 0;
             MaxAblitiesNum = LevelConfig.AbilitySlotList[num];
             AbilityBtn = new List<Button>();
-            restartBtn = new Button("restart", 400, 100);
+            restartBtn = new Button("restart", 640, 100);
 
             CanUp = CanDown = CanLeft = CanRight = CanPull = CanPushMulti = CanDestroy = false;
 
@@ -418,7 +410,7 @@ namespace Sokoban
             }
             restartBtn.Draw();
             //TODO: Show how many abilities are allowed to choose for this level.
-            if(MaxAblitiesNum - NowAblitiesChosen == 0)
+            if (MaxAblitiesNum - NowAblitiesChosen == 0)
             {
                 _spriteBatch.DrawString(Arial32, "No Abilities Left", new Vector2(620, 20), Color.Black);
             }

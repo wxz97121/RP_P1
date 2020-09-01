@@ -31,6 +31,7 @@ namespace Sokoban
         int NowDir = 0;
         LevelConfig _LevelData;
 
+        public static bool HasBegun = false;
         int NowAblitiesChosen = 0;
         public List<Button> AbilityBtn;
 
@@ -63,10 +64,13 @@ namespace Sokoban
         void Undo()
         {
             if (History.Count <= 1)
+            {
+                HasBegun = false;
                 return;
+            }
             History.RemoveAt(History.Count - 1);
             NowMap = History[History.Count - 1].Clone() as int[,];
-
+            if (History.Count <= 1) HasBegun = false;
             UpdatePlayerPos();
             return;
             //TODO: Undo feature
@@ -87,6 +91,7 @@ namespace Sokoban
         }
         bool Move(int nowx, int nowy, int Dir)
         {
+            HasBegun = true;
             int tarx = nowx + dx[Dir];
             int tary = nowy + dy[Dir];
             if (!CheckIfInRange(tarx, tary)) return false;
@@ -177,6 +182,7 @@ namespace Sokoban
             History.Add(NowMap.Clone() as int[,]);
             Row = NowMap.GetLength(0);
             Column = NowMap.GetLength(1);
+            HasBegun = false;
             /*
             Row = LevelConfig.RowList[num];
             Column = LevelConfig.ColumnList[num];
@@ -351,7 +357,7 @@ namespace Sokoban
             if (CheckLMBClicked())
             {
                 for (int i = 0; i < AbilityBtn.Count; i++)
-                    if (AbilityBtn[i].enterButton())
+                    if (AbilityBtn[i].enterButton() && !HasBegun)
                     {
                         if (AbilityBtn[i].isChecked)
                         {

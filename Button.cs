@@ -70,7 +70,8 @@ namespace Sokoban
 
         public void Draw()
         {
-            Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), isChecked ? Color.Blue : Color.White);
+            if (Name == "restart") Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), Color.White);
+            else Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), isChecked ? Color.Blue : Game1.HasBegun?Color.Gray: Color.White);
         }
     }
 }

@@ -82,6 +82,19 @@ namespace Sokoban
             TargetYList.Add(4);
             AbilitySlotList.Add(4);
             AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
+
+            MapList.Add(new int[,]
+{
+                { 0,2,1,0,0 },
+                { 0,0,1,0,0 },
+                { 1,1,5,1,1 },
+                { 3,0,1,0,0 },
+                { 3,3,1,0,6 },
+});
+            TargetXList.Add(3);
+            TargetYList.Add(1);
+            AbilitySlotList.Add(4);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
         }
     }
 }

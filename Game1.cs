@@ -12,6 +12,7 @@ namespace Sokoban
     {
         public static SpriteBatch m_SpriteBatch;
         public static ContentManager m_Content;
+        public static SpriteFont Arial32;
         //public static int BtnWidth = 200, BtnHeight = 200;
 
         // private Stack<int[,]> history = new Stack<int[,]>();
@@ -216,6 +217,7 @@ namespace Sokoban
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body Lside 2x"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body side 2x"));
 
+            Arial32 = Content.Load<SpriteFont>("Fonts/Arial32");
         }
         private KeyboardState PreviousState;
         private MouseState PreviousMouseState;
@@ -379,6 +381,14 @@ namespace Sokoban
             }
             restartBtn.Draw();
             //TODO: Show how many abilities are allowed to choose for this level.
+            if(MaxAblitiesNum - NowAblitiesChosen == 0)
+            {
+                _spriteBatch.DrawString(Arial32, "No Abilities Left", new Vector2(620, 20), Color.Black);
+            }
+            else
+            {
+                _spriteBatch.DrawString(Arial32, "Abilities Left: " + (MaxAblitiesNum - NowAblitiesChosen), new Vector2(620, 20), Color.Black);
+            }
             _spriteBatch.End();
             base.Draw(gameTime);
         }

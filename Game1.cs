@@ -37,6 +37,8 @@ namespace Sokoban
 
         public Button restartBtn;
         public Button undoBtn;
+        public Button menuBtn;
+  
         /*
         public Button UpBtn, DownBtn, LeftBtn, RightBtn, PullBtn, MultiBtn;
         public Texture2D UpSprite, DownSprite, LeftSprite, RightSprite, PullSprite, MultiSprite;
@@ -54,7 +56,9 @@ namespace Sokoban
             Content.RootDirectory = "Content";
             m_Content = Content;
             IsMouseVisible = true;
+           
         }
+      
         bool CheckForWin()
         {
             //return false;
@@ -186,14 +190,17 @@ namespace Sokoban
             NowAblitiesChosen = 0;
             MaxAblitiesNum = LevelConfig.AbilitySlotList[num];
             AbilityBtn = new List<Button>();
-            restartBtn = new Button("button_reset", 640, 100);
-            undoBtn = new Button("button_undo", 640, 200);
+            restartBtn = new Button("Reset_Button", 700, 700);
+            undoBtn = new Button("button_undo", 50, 700);
+            menuBtn = new Button("Home_Icon", 800, 700);
+
             CanUp = CanDown = CanLeft = CanRight = CanPull = CanPushMulti = CanDestroy = false;
 
             NowDir = 0;
             for (int i = 0; i < LevelConfig.AbilityList[num].Count; i++)
             {
-                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 550, 64 * i));
+                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 750, 75 * i + 150 ));
+                //AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 75 * i + 25, 680));
             }
 
 
@@ -215,11 +222,17 @@ namespace Sokoban
 
         protected override void Initialize()
         {
+            _graphics.PreferredBackBufferWidth = 900;
+            _graphics.PreferredBackBufferHeight = 850;
+            _graphics.ApplyChanges();
             _LevelData = new LevelConfig();
             GameSprite = new List<Texture2D>();
             NowLevelIndex = 0;
             PlayerSprite = new List<Texture2D>();
             LoadLevel(0);
+            Window.AllowUserResizing=true;
+            
+
             base.Initialize();
         }
 
@@ -391,7 +404,7 @@ namespace Sokoban
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Gray);
             _spriteBatch.Begin();
 
             for (int i = 0; i < Row; i++)
@@ -399,10 +412,10 @@ namespace Sokoban
                 {
                     Texture2D TarTexture = GameSprite[NowMap[i, j]];
                     if (NowMap[i, j] == 2) TarTexture = PlayerSprite[NowDir];
-                    _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64), Color.White);
+                    _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64+128), Color.White);
                 }
             if (NowMap[TargetX, TargetY] == 0)
-                _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64), Color.White);
+                _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64 +128), Color.White);
 
             for (int i = 0; i < AbilityBtn.Count; i++)
             {
@@ -410,14 +423,15 @@ namespace Sokoban
             }
             restartBtn.Draw();
             undoBtn.Draw();
+            menuBtn.Draw();
             //TODO: Show how many abilities are allowed to choose for this level.
             if (MaxAblitiesNum - NowAblitiesChosen == 0)
             {
-                _spriteBatch.DrawString(Arial32, "No Abilities Left", new Vector2(620, 20), Color.Black);
+                _spriteBatch.DrawString(Arial32, "No Abilities Left", new Vector2(150, 700), Color.Black);
             }
             else
             {
-                _spriteBatch.DrawString(Arial32, "Abilities Left: " + (MaxAblitiesNum - NowAblitiesChosen), new Vector2(620, 20), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Abilities Left: " + (MaxAblitiesNum - NowAblitiesChosen), new Vector2(150, 700), Color.Black);
             }
             _spriteBatch.End();
             base.Draw(gameTime);

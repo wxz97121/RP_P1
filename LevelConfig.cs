@@ -11,6 +11,7 @@ namespace Sokoban
         public readonly static List<int> TargetXList = new List<int>(), TargetYList = new List<int>();
         public readonly static List<int> AbilitySlotList = new List<int>();
         public readonly static List<List<string>> AbilityList = new List<List<string>>();
+        public readonly static List<int> MinStepsList = new List<int>();
         public LevelConfig()
         {
             // 0 empty
@@ -34,6 +35,7 @@ namespace Sokoban
             TargetXList.Add(1);
             TargetYList.Add(2);
             AbilitySlotList.Add(1);
+            MinStepsList.Add(5);
             AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push" });
 
             //Level 02
@@ -48,7 +50,8 @@ namespace Sokoban
             TargetXList.Add(1);
             TargetYList.Add(4);
             AbilitySlotList.Add(3);
-            AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R" });
+            MinStepsList.Add(6);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull", "push" });
 
             //Level 03
             MapList.Add(new int[,]
@@ -64,7 +67,8 @@ namespace Sokoban
             TargetXList.Add(3);
             TargetYList.Add(5);
             AbilitySlotList.Add(4);
-            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
+            MinStepsList.Add(11);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull", "push" });
 
             //Level 04
             MapList.Add(new int[,]
@@ -79,6 +83,7 @@ namespace Sokoban
             TargetXList.Add(4);
             TargetYList.Add(2);
             AbilitySlotList.Add(4);
+            MinStepsList.Add(8);
             AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull" });
             //Level 05
             MapList.Add(new int[,]
@@ -96,7 +101,8 @@ namespace Sokoban
             TargetXList.Add(7);
             TargetYList.Add(4);
             AbilitySlotList.Add(3);
-            AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R", "explosion" });
+            MinStepsList.Add(13);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull", "push", "explosion" });
 
             //Level 06
             MapList.Add(new int[,]
@@ -113,7 +119,8 @@ namespace Sokoban
             TargetXList.Add(1);
             TargetYList.Add(2);
             AbilitySlotList.Add(4);
-            AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R", "explosion" });
+            MinStepsList.Add(12);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull", "push", "explosion" });
 
 
             //Level 07
@@ -131,7 +138,8 @@ namespace Sokoban
             TargetXList.Add(1);
             TargetYList.Add(2);
             AbilitySlotList.Add(5);
-            AbilityList.Add(new List<string>() { "UP", "DOWN", "pull", "push", "L", "R" });
+            MinStepsList.Add(32);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull", "push" });
 
         }
     }

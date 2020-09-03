@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -41,7 +42,7 @@ namespace Sokoban
         public Button menuBtn;
         public Button challengeBtn;
         public Button freestyleBtn;
-  
+
         /*
         public Button UpBtn, DownBtn, LeftBtn, RightBtn, PullBtn, MultiBtn;
         public Texture2D UpSprite, DownSprite, LeftSprite, RightSprite, PullSprite, MultiSprite;
@@ -59,9 +60,9 @@ namespace Sokoban
             Content.RootDirectory = "Content";
             m_Content = Content;
             IsMouseVisible = true;
-           
+
         }
-      
+
         bool CheckForWin()
         {
             //return false;
@@ -202,7 +203,7 @@ namespace Sokoban
             NowDir = 0;
             for (int i = 0; i < LevelConfig.AbilityList[num].Count; i++)
             {
-                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 750, 75 * i + 150 ));
+                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 750, 75 * i + 150));
                 //AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 75 * i + 25, 680));
             }
 
@@ -233,12 +234,12 @@ namespace Sokoban
             NowLevelIndex = 0;
             PlayerSprite = new List<Texture2D>();
             LoadLevel(0);
-            Window.AllowUserResizing=true;
-            
+            Window.AllowUserResizing = true;
+
 
             base.Initialize();
         }
-
+        Texture2D TitleSprite;
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -258,6 +259,7 @@ namespace Sokoban
             GameSprite.Add(Content.Load<Texture2D>("Sprite/portalC"));
             GameSprite.Add(GameSprite[9]);
 
+            TitleSprite = Content.Load<Texture2D>("Sprite/Title");
             TargetSprite = Content.Load<Texture2D>("Sprite/flag 2x");//flag
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body_back"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body"));
@@ -365,8 +367,8 @@ namespace Sokoban
         }
         void UpdateMouseInput()
         {
-            challengeBtn = new Button("challenge_button", 413, 250);
-            freestyleBtn = new Button("freestyle", 413, 350);
+            challengeBtn = new Button("challenge_button", 365, 350, 128, 128);
+            freestyleBtn = new Button("freestyle", 365, 550, 128, 128);
             if (CheckLMBClicked())
             {
                 for (int i = 0; i < AbilityBtn.Count; i++)
@@ -389,12 +391,12 @@ namespace Sokoban
                 if (undoBtn.enterButton()) Undo();
                 if (challengeBtn.enterButton())
                 {
-                   
+
                     isMainMenu = false;
-                     LoadLevel(0);
+                    LoadLevel(0);
 
                 }
-                if (menuBtn.enterButton()) 
+                if (menuBtn.enterButton())
                 {
                     isMainMenu = true;
                 }
@@ -490,49 +492,50 @@ namespace Sokoban
             {
                 GraphicsDevice.Clear(Color.Gray);
                 _spriteBatch.Begin();
+                _spriteBatch.Draw(TitleSprite, new Vector2(0, 0), Color.White);
                 challengeBtn.Draw();
                 freestyleBtn.Draw();
                 _spriteBatch.End();
             }
-            else 
+            else
             {
                 GraphicsDevice.Clear(Color.Gray);
                 _spriteBatch.Begin();
-             for (int i = 0; i < Row; i++)
+                for (int i = 0; i < Row; i++)
                     for (int j = 0; j < Column; j++)
                     {
                         Texture2D TarTexture = GameSprite[NowMap[i, j]];
                         if (NowMap[i, j] == 2) TarTexture = PlayerSprite[NowDir];
                         _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64 + 104), Color.White);
                     }
-            if (NowMap[TargetX, TargetY] == 0)
-                _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64 + 104), Color.White);
+                if (NowMap[TargetX, TargetY] == 0)
+                    _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64 + 104), Color.White);
 
-            for (int i = 0; i < AbilityBtn.Count; i++)
-            {
-                AbilityBtn[i].Draw();
+                for (int i = 0; i < AbilityBtn.Count; i++)
+                {
+                    AbilityBtn[i].Draw();
+                }
+                restartBtn.Draw();
+                undoBtn.Draw();
+                menuBtn.Draw();
+
+                //draw all the text
+                if (MaxAblitiesNum - NowAblitiesChosen == 0)
+                {
+                    _spriteBatch.DrawString(Arial32, "No Abilities Left", new Vector2(150, 700), Color.Black);
+                }
+                else
+                {
+                    _spriteBatch.DrawString(Arial32, "Abilities Left: " + (MaxAblitiesNum - NowAblitiesChosen), new Vector2(150, 700), Color.Black);
+                }
+                _spriteBatch.DrawString(Arial32, "Steps taken: " + stepCount, new Vector2(10, 10), Color.Black);
+
+                //draw button descriptions based on level
+                drawButtonLabels();
+
+                _spriteBatch.End();
+                base.Draw(gameTime);
             }
-            restartBtn.Draw();
-            undoBtn.Draw();
-            menuBtn.Draw();
-
-            //draw all the text
-            if (MaxAblitiesNum - NowAblitiesChosen == 0)
-            {
-                _spriteBatch.DrawString(Arial32, "No Abilities Left", new Vector2(150, 700), Color.Black);
-            }
-            else
-            {
-                _spriteBatch.DrawString(Arial32, "Abilities Left: " + (MaxAblitiesNum - NowAblitiesChosen), new Vector2(150, 700), Color.Black);
-            }
-            _spriteBatch.DrawString(Arial32, "Steps taken: " + stepCount, new Vector2(10, 10), Color.Black);
-
-            //draw button descriptions based on level
-            drawButtonLabels();
-
-            _spriteBatch.End();
-            base.Draw(gameTime);
-        }
         }
     }
 }

@@ -32,10 +32,11 @@ namespace Sokoban
             }
         }
 
-        public Button(string name, int buttonX, int buttonY)
+        public Button(string name, int buttonX, int buttonY, int _height_button= 64, int _width_button= 64)
         {
             Name = name;
-
+            height_button = _height_button;
+            width_button = _width_button;
             this.m_Texture = Game1.m_Content.Load<Texture2D>("Sprite/" + name);
             //TODO: Maybe we should catch some exception here?
 
@@ -51,7 +52,7 @@ namespace Sokoban
         **/
         public bool enterButton()
         {
-            
+
             if (Mouse.GetState().X < buttonX + width_button &&
                     Mouse.GetState().X > buttonX &&
                     Mouse.GetState().Y < buttonY + height_button &&

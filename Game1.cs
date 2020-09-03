@@ -394,6 +394,10 @@ namespace Sokoban
                      LoadLevel(0);
 
                 }
+                if (menuBtn.enterButton()) 
+                {
+                    isMainMenu = true;
+                }
 
             }
         }

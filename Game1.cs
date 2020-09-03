@@ -31,7 +31,7 @@ namespace Sokoban
         int NowDir = 0;
         int stepCount = 0;
         LevelConfig _LevelData;
-
+        bool isMainMenu = true;
         public static bool HasBegun = false;
         int NowAblitiesChosen = 0;
         public List<Button> AbilityBtn;
@@ -39,6 +39,8 @@ namespace Sokoban
         public Button restartBtn;
         public Button undoBtn;
         public Button menuBtn;
+        public Button challengeBtn;
+        public Button freestyleBtn;
   
         /*
         public Button UpBtn, DownBtn, LeftBtn, RightBtn, PullBtn, MultiBtn;
@@ -363,6 +365,8 @@ namespace Sokoban
         }
         void UpdateMouseInput()
         {
+            challengeBtn = new Button("challenge_button", 413, 250);
+            freestyleBtn = new Button("freestyle", 413, 350);
             if (CheckLMBClicked())
             {
                 for (int i = 0; i < AbilityBtn.Count; i++)
@@ -383,7 +387,13 @@ namespace Sokoban
                     }
                 if (restartBtn.enterButton()) LoadLevel(NowLevelIndex);
                 if (undoBtn.enterButton()) Undo();
+                if (challengeBtn.enterButton())
+                {
+                   
+                    isMainMenu = false;
+                     LoadLevel(0);
 
+                }
 
             }
         }
@@ -471,16 +481,26 @@ namespace Sokoban
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Gray);
-            _spriteBatch.Begin();
-
-            for (int i = 0; i < Row; i++)
-                for (int j = 0; j < Column; j++)
-                {
-                    Texture2D TarTexture = GameSprite[NowMap[i, j]];
-                    if (NowMap[i, j] == 2) TarTexture = PlayerSprite[NowDir];
-                    _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64+104), Color.White);
-                }
+            //isMainMenu = true;
+            if (isMainMenu == true)
+            {
+                GraphicsDevice.Clear(Color.Gray);
+                _spriteBatch.Begin();
+                challengeBtn.Draw();
+                freestyleBtn.Draw();
+                _spriteBatch.End();
+            }
+            else 
+            {
+                GraphicsDevice.Clear(Color.Gray);
+                _spriteBatch.Begin();
+             for (int i = 0; i < Row; i++)
+                    for (int j = 0; j < Column; j++)
+                    {
+                        Texture2D TarTexture = GameSprite[NowMap[i, j]];
+                        if (NowMap[i, j] == 2) TarTexture = PlayerSprite[NowDir];
+                        _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64 + 104), Color.White);
+                    }
             if (NowMap[TargetX, TargetY] == 0)
                 _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64 + 104), Color.White);
 
@@ -508,6 +528,7 @@ namespace Sokoban
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
         }
     }
 }

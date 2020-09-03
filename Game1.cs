@@ -242,25 +242,25 @@ namespace Sokoban
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             m_SpriteBatch = _spriteBatch;
             GameSprite.Add(Content.Load<Texture2D>("Sprite/white_space"));//space1 0
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/box 2x"));//box 1
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/body 2x"));// 2
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/box"));//box 1
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/body"));// 2
             GameSprite.Add(Content.Load<Texture2D>("Sprite/black_space"));//blackspace 3
             GameSprite.Add(Content.Load<Texture2D>("Sprite/rock 2x"));//rock 4
 
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/portalA"));
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/portal_A_2x"));
             GameSprite.Add(GameSprite[5]);
 
-            GameSprite.Add(Content.Load<Texture2D>("Sprite/portalB"));
+            GameSprite.Add(Content.Load<Texture2D>("Sprite/portal_C_2x"));
             GameSprite.Add(GameSprite[7]);
 
             GameSprite.Add(Content.Load<Texture2D>("Sprite/portalC"));
             GameSprite.Add(GameSprite[9]);
 
             TargetSprite = Content.Load<Texture2D>("Sprite/flag 2x");//flag
-            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body back 2x"));
-            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body 2x"));
+            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body_back"));
+            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body Lside 2x"));
-            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body side 2x"));
+            PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body_side"));
 
             Arial32 = Content.Load<SpriteFont>("Fonts/Arial32");
         }
@@ -411,14 +411,14 @@ namespace Sokoban
                 _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
-                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Multi Boxes", new Vector2(608, 390), Color.Black);
             }
             if (NowLevelIndex == 1)
             {
                 _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
-                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Multi Boxes", new Vector2(608, 390), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
             }
@@ -443,7 +443,7 @@ namespace Sokoban
                 _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
-                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Multi Boxes", new Vector2(608, 390), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Explode Box", new Vector2(598, 615), Color.Black);
@@ -453,7 +453,7 @@ namespace Sokoban
                 _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
-                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Multi Boxes", new Vector2(608, 390), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Explode Box", new Vector2(598, 615), Color.Black);
@@ -463,7 +463,7 @@ namespace Sokoban
                 _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
-                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Multi Boxes", new Vector2(608, 390), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
             }
@@ -479,10 +479,10 @@ namespace Sokoban
                 {
                     Texture2D TarTexture = GameSprite[NowMap[i, j]];
                     if (NowMap[i, j] == 2) TarTexture = PlayerSprite[NowDir];
-                    _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64+128), Color.White);
+                    _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64+104), Color.White);
                 }
             if (NowMap[TargetX, TargetY] == 0)
-                _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64 +128), Color.White);
+                _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64 + 104), Color.White);
 
             for (int i = 0; i < AbilityBtn.Count; i++)
             {

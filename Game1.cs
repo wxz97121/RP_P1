@@ -404,6 +404,71 @@ namespace Sokoban
             base.Update(gameTime);
         }
 
+        void drawButtonLabels()
+        {
+            if (NowLevelIndex == 0)
+            {
+                _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+            }
+            if (NowLevelIndex == 1)
+            {
+                _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
+            }
+            if (NowLevelIndex == 2)
+            {
+                _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 315), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 465), Color.Black);
+            }
+            if (NowLevelIndex == 3)
+            {
+                _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 315), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 465), Color.Black);
+            }
+            if (NowLevelIndex == 4)
+            {
+                _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Explode Box", new Vector2(598, 615), Color.Black);
+            }
+            if (NowLevelIndex == 5)
+            {
+                _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Explode Box", new Vector2(598, 615), Color.Black);
+            }
+            if (NowLevelIndex == 6)
+            {
+                _spriteBatch.DrawString(Arial32, "Walk Up", new Vector2(640, 165), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Push Box", new Vector2(626, 390), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Left", new Vector2(626, 465), Color.Black);
+                _spriteBatch.DrawString(Arial32, "Walk Right", new Vector2(610, 540), Color.Black);
+            }
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Gray);
@@ -437,6 +502,9 @@ namespace Sokoban
                 _spriteBatch.DrawString(Arial32, "Abilities Left: " + (MaxAblitiesNum - NowAblitiesChosen), new Vector2(150, 700), Color.Black);
             }
             _spriteBatch.DrawString(Arial32, "Steps taken: " + stepCount, new Vector2(10, 10), Color.Black);
+
+            //draw button descriptions based on level
+            drawButtonLabels();
 
             _spriteBatch.End();
             base.Draw(gameTime);

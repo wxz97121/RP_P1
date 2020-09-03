@@ -29,6 +29,7 @@ namespace Sokoban
         int Row, Column, NowLevelIndex;
         int MaxAblitiesNum = 1;
         int NowDir = 0;
+        int stepCount = 0;
         LevelConfig _LevelData;
 
         public static bool HasBegun = false;
@@ -267,6 +268,7 @@ namespace Sokoban
         private MouseState PreviousMouseState;
         void UpdateState()
         {
+            stepCount = History.Count - 1;
             PreviousState = Keyboard.GetState();
             PreviousMouseState = Mouse.GetState();
         }
@@ -424,7 +426,8 @@ namespace Sokoban
             restartBtn.Draw();
             undoBtn.Draw();
             menuBtn.Draw();
-            //TODO: Show how many abilities are allowed to choose for this level.
+
+            //draw all the text
             if (MaxAblitiesNum - NowAblitiesChosen == 0)
             {
                 _spriteBatch.DrawString(Arial32, "No Abilities Left", new Vector2(150, 700), Color.Black);
@@ -433,6 +436,8 @@ namespace Sokoban
             {
                 _spriteBatch.DrawString(Arial32, "Abilities Left: " + (MaxAblitiesNum - NowAblitiesChosen), new Vector2(150, 700), Color.Black);
             }
+            _spriteBatch.DrawString(Arial32, "Steps taken: " + stepCount, new Vector2(10, 10), Color.Black);
+
             _spriteBatch.End();
             base.Draw(gameTime);
         }

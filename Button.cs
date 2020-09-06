@@ -9,7 +9,8 @@ namespace Sokoban
 
     public class Button
     {
-        int buttonX, buttonY; //button position
+        public int buttonX, buttonY; //button position
+        public int initialX, initialY;
         Texture2D m_Texture;
         public bool isChecked = false;
         public string Name;
@@ -31,9 +32,18 @@ namespace Sokoban
                 return buttonY;
             }
         }
+        public void rePos() 
+        {
+            buttonX = initialX;
+            buttonY = initialY;
+        
+        }
 
         public Button(string name, int buttonX, int buttonY, int _height_button= 64, int _width_button= 64)
         {
+            initialX = buttonX;
+            initialY = buttonY;
+
             Name = name;
             height_button = _height_button;
             width_button = _width_button;
@@ -68,7 +78,7 @@ namespace Sokoban
             isChecked = !isChecked;
             return isChecked;
         }
-        Color CalcColor()
+        public Color CalcColor()
         {
             if (Name.StartsWith("button"))
             {

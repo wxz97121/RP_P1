@@ -194,6 +194,18 @@
 /processorParam:TextureFormat=Color
 /build:Sprite/explosion.png
 
+#begin Sprite/first_tutorial.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprite/first_tutorial.png
+
 #begin Sprite/flag 2x.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -397,6 +409,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Sprite/rock 2x.png
+
+#begin Sprite/second_tutorial.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Sprite/second_tutorial.png
 
 #begin Sprite/Space.png
 /importer:TextureImporter

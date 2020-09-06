@@ -40,10 +40,14 @@ namespace Sokoban
         public static bool HasBegun = false;
         int NowAblitiesChosen = 0;
         public List<Button> AbilityBtn;
+<<<<<<< HEAD
         private SoundEffect WinAudio;
+
+=======
 
         public Tutorial_Box first_tutorial;
         public Tutorial_Box second_tutorial;
+>>>>>>> origin/master
         public Button restartBtn;
         public Button undoBtn;
         public Button menuBtn;

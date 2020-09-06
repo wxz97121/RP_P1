@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+//using System.Drawing;
 
 namespace Sokoban
 {
@@ -23,6 +26,7 @@ namespace Sokoban
         List<Texture2D> GameSprite;
         List<Texture2D> PlayerSprite;
         Texture2D TargetSprite;
+        Texture2D BGSprite, StarSprite;
         int PlayerX, PlayerY; // where the player is.
         int TargetX, TargetY;
         int[,] NowMap;
@@ -36,7 +40,7 @@ namespace Sokoban
         public static bool HasBegun = false;
         int NowAblitiesChosen = 0;
         public List<Button> AbilityBtn;
-
+        private SoundEffect WinAudio;
 
         public Button restartBtn;
         public Button undoBtn;
@@ -184,6 +188,7 @@ namespace Sokoban
         void LoadLevel(int num)
         {
             if (num >= LevelConfig.MapList.Count || num < 0) return;
+            isWin = false;
             NowMap = (int[,])LevelConfig.MapList[num].Clone();
             History = new List<int[,]>();
             History.Add(NowMap.Clone() as int[,]);
@@ -247,6 +252,7 @@ namespace Sokoban
         Texture2D TitleSprite;
         protected override void LoadContent()
         {
+            WinAudio = Content.Load<SoundEffect>("Audio/Win");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             m_SpriteBatch = _spriteBatch;
             GameSprite.Add(Content.Load<Texture2D>("Sprite/white_space"));//space1 0
@@ -266,6 +272,8 @@ namespace Sokoban
 
             TitleSprite = Content.Load<Texture2D>("Sprite/Title");
             TargetSprite = Content.Load<Texture2D>("Sprite/flag 2x");//flag
+            BGSprite = Content.Load<Texture2D>("Sprite/Background");
+            StarSprite = Content.Load<Texture2D>("Sprite/New_Star");
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body_back"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body Lside 2x"));
@@ -408,19 +416,42 @@ namespace Sokoban
 
             }
         }
+
+        bool isWin = false;
+        double SecondsSinceWin = 0;
+        void DrawWinUI()
+        {
+            _spriteBatch.Draw(BGSprite, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
+            if (SecondsSinceWin > 1) _spriteBatch.Draw(StarSprite, new Vector2(350, 350), Color.White);
+        }
+        void ProcessWin(GameTime gameTime)
+        {
+            if (!isWin)
+            {
+                WinAudio.CreateInstance().Play();
+            }
+            isWin = true;
+            SecondsSinceWin += gameTime.ElapsedGameTime.TotalSeconds;
+            if (SecondsSinceWin > 2)
+                LoadLevel(NowLevelIndex + 1);
+        }
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            UpdateKeyboardInput();
-            UpdateMouseInput();
+            if (!isWin)
+            {
+                UpdateKeyboardInput();
+                UpdateMouseInput();
+            }
 
 
             //TODO: Lock the abilities after player start moving.
             UpdateState();
             UpdatePlayerPos();
             if (CheckForWin())
-                LoadLevel(NowLevelIndex + 1);
+                ProcessWin(gameTime);
+
 
             base.Update(gameTime);
         }
@@ -539,6 +570,10 @@ namespace Sokoban
                 //draw button descriptions based on level
                 drawButtonLabels();
 
+                if (isWin)
+                {
+                    DrawWinUI();
+                }
                 _spriteBatch.End();
                 base.Draw(gameTime);
             }

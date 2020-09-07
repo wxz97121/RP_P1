@@ -29,6 +29,7 @@ namespace Sokoban
         Texture2D BGSprite, StarSprite;
         int PlayerX, PlayerY; // where the player is.
         int TargetX, TargetY;
+        int MinStepsOfThisLevel;
         int[,] NowMap;
         public List<int[,]> History;
         int Row, Column, NowLevelIndex;
@@ -198,6 +199,7 @@ namespace Sokoban
             Row = NowMap.GetLength(0);
             Column = NowMap.GetLength(1);
             HasBegun = false;
+            MinStepsOfThisLevel = LevelConfig.MinStepsList[NowLevelIndex];
             /*
             Row = LevelConfig.RowList[num];
             Column = LevelConfig.ColumnList[num];
@@ -693,6 +695,23 @@ namespace Sokoban
 
                 //draw button descriptions based on level
                 drawButtonLabels();
+
+                _spriteBatch.DrawString(Arial32, "Stars Earned: ", new Vector2(400, 10), Color.Black);
+                if(MinStepsOfThisLevel == stepCount)
+                {
+                    _spriteBatch.Draw(StarSprite, new Vector2(550, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(StarSprite, new Vector2(575, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(StarSprite, new Vector2(600, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                }
+                if (MinStepsOfThisLevel == stepCount + 2)
+                {
+                    _spriteBatch.Draw(StarSprite, new Vector2(550, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(StarSprite, new Vector2(575, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                }
+                if (MinStepsOfThisLevel == stepCount + 4)
+                {
+                    _spriteBatch.Draw(StarSprite, new Vector2(550, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                }
 
                 if (isWin)
                 {

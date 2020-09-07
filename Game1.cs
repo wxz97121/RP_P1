@@ -713,18 +713,18 @@ namespace Sokoban
                 drawButtonLabels();
 
                 _spriteBatch.DrawString(Arial32, "Stars Earned: ", new Vector2(400, 10), Color.Black);
-                if(MinStepsOfThisLevel == stepCount)
+                if(MinStepsOfThisLevel >= stepCount)
                 {
                     _spriteBatch.Draw(StarSprite, new Vector2(550, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                     _spriteBatch.Draw(StarSprite, new Vector2(575, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                     _spriteBatch.Draw(StarSprite, new Vector2(600, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                 }
-                if (MinStepsOfThisLevel == stepCount + 2)
+                else if (MinStepsOfThisLevel + 2 >= stepCount)
                 {
                     _spriteBatch.Draw(StarSprite, new Vector2(550, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                     _spriteBatch.Draw(StarSprite, new Vector2(575, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                 }
-                if (MinStepsOfThisLevel == stepCount + 4)
+                else if (MinStepsOfThisLevel + 4 >= stepCount)
                 {
                     _spriteBatch.Draw(StarSprite, new Vector2(550, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                 }

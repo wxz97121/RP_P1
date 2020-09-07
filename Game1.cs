@@ -712,22 +712,23 @@ namespace Sokoban
                 //draw button descriptions based on level
                 drawButtonLabels();
 
-                _spriteBatch.DrawString(Arial32, "Minimum Steps Possible: " + MinStepsOfThisLevel, new Vector2(590, 10), Color.Black);
-                _spriteBatch.DrawString(Arial32, "Stars Earned: ", new Vector2(290, 10), Color.Black);
                 if(MinStepsOfThisLevel >= stepCount)
                 {
-                    _spriteBatch.Draw(StarSprite, new Vector2(440, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
-                    _spriteBatch.Draw(StarSprite, new Vector2(465, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
-                    _spriteBatch.Draw(StarSprite, new Vector2(490, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(Arial32, "Under " + MinStepsOfThisLevel + " steps: ", new Vector2(620, 10), Color.Black);
+                    _spriteBatch.Draw(StarSprite, new Vector2(790, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(StarSprite, new Vector2(815, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(StarSprite, new Vector2(840, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                 }
                 else if (MinStepsOfThisLevel + 2 >= stepCount)
                 {
-                    _spriteBatch.Draw(StarSprite, new Vector2(440, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
-                    _spriteBatch.Draw(StarSprite, new Vector2(465, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(Arial32, "Under " + (MinStepsOfThisLevel + 2) + " steps: ", new Vector2(620, 10), Color.Black);
+                    _spriteBatch.Draw(StarSprite, new Vector2(790, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.Draw(StarSprite, new Vector2(815, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                 }
                 else if (MinStepsOfThisLevel + 4 >= stepCount)
                 {
-                    _spriteBatch.Draw(StarSprite, new Vector2(440, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
+                    _spriteBatch.DrawString(Arial32, "Under " + (MinStepsOfThisLevel + 4) + " steps: ", new Vector2(620, 10), Color.Black);
+                    _spriteBatch.Draw(StarSprite, new Vector2(790, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
                 }
 
                 if (isWin)

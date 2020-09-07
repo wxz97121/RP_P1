@@ -27,6 +27,7 @@ namespace Sokoban
         List<Texture2D> PlayerSprite;
         Texture2D TargetSprite, FinalTargetSprite;
         Texture2D BGSprite, StarSprite;
+        Texture2D titileSprite;
         int PlayerX, PlayerY; // where the player is.
         int TargetX, TargetY;
         int MinStepsOfThisLevel;
@@ -292,6 +293,8 @@ namespace Sokoban
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body Lside 2x"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body_side"));
+
+            titileSprite= Content.Load<Texture2D>("Sprite/new_titile");
 
             Arial32 = Content.Load<SpriteFont>("Fonts/Arial32");
         }
@@ -660,7 +663,7 @@ namespace Sokoban
                 GraphicsDevice.Clear(Color.Gray);
                 _spriteBatch.Begin();
                 DrawMenuAnimation(gameTime);
-                //_spriteBatch.Draw(TitleSprite, new Vector2(0, 0), Color.White);
+                _spriteBatch.Draw(titileSprite, new Vector2(150, 150), Color.White);
                 challengeBtn.Draw();
                 freestyleBtn.Draw();
                 _spriteBatch.End();

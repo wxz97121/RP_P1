@@ -302,6 +302,7 @@ namespace Sokoban
             stepCount = History.Count - 1;
             PreviousState = Keyboard.GetState();
             PreviousMouseState = Mouse.GetState();
+            MinStepsOfThisLevel = LevelConfig.MinStepsList[NowLevelIndex];
         }
         bool CheckPressed(Keys keys)
         {

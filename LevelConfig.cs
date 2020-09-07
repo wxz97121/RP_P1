@@ -141,6 +141,23 @@ namespace Sokoban
             MinStepsList.Add(32);
             AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull", "push" });
 
+            MapList.Add(new int[,]
+{
+                {3,3,3,3,3 },
+                {3,3,2,3,3 },
+                {3,3,0,3,3 },
+                {3,3,0,3,3 },
+                {3,3,0,3,3 },
+                {3,3,0,3,3 },
+                {3,3,0,3,3 },
+                {3,3,3,3,3 },
+});
+            TargetXList.Add(6);
+            TargetYList.Add(2);
+            AbilitySlotList.Add(1);
+            MinStepsList.Add(5);
+            AbilityList.Add(new List<string>() { "UP", "DOWN", "L", "R", "pull", "push" });
+
         }
     }
 }

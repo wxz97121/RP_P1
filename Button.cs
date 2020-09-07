@@ -32,14 +32,14 @@ namespace Sokoban
                 return buttonY;
             }
         }
-        public void rePos() 
+        public void rePos()
         {
             buttonX = initialX;
             buttonY = initialY;
-        
+
         }
 
-        public Button(string name, int buttonX, int buttonY, int _height_button= 64, int _width_button= 64)
+        public Button(string name, int buttonX, int buttonY, int _height_button = 64, int _width_button = 64)
         {
             initialX = buttonX;
             initialY = buttonY;
@@ -80,7 +80,7 @@ namespace Sokoban
         }
         public Color CalcColor()
         {
-            if (Name.StartsWith("button"))
+            if (Name.StartsWith("button") || Name.CompareTo("Reset_Button") == 0)
             {
                 return Color.White;
             }

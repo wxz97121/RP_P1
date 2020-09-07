@@ -25,7 +25,7 @@ namespace Sokoban
         private SpriteBatch _spriteBatch;
         List<Texture2D> GameSprite;
         List<Texture2D> PlayerSprite;
-        Texture2D TargetSprite;
+        Texture2D TargetSprite, FinalTargetSprite;
         Texture2D BGSprite, StarSprite;
         int PlayerX, PlayerY; // where the player is.
         int TargetX, TargetY;
@@ -41,6 +41,7 @@ namespace Sokoban
         int NowAblitiesChosen = 0;
         public List<Button> AbilityBtn;
         private SoundEffect WinAudio;
+        private SoundEffect StarAudio;
 
         public Tutorial_Box first_tutorial;
         public Tutorial_Box second_tutorial;
@@ -222,7 +223,7 @@ namespace Sokoban
             //if (undoBtn.isChecked = false) { }
             for (int i = 4; i < LevelConfig.AbilityList[num].Count; i++)
             {
-                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 750, 75 * (i-2) + 150));
+                AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 750, 75 * (i - 2) + 150));
                 //AbilityBtn.Add(new Button(LevelConfig.AbilityList[num][i], 75 * i + 25, 680));
             }
 
@@ -262,6 +263,7 @@ namespace Sokoban
         protected override void LoadContent()
         {
             WinAudio = Content.Load<SoundEffect>("Audio/Win");
+            StarAudio = Content.Load<SoundEffect>("Audio/Star");
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             m_SpriteBatch = _spriteBatch;
             GameSprite.Add(Content.Load<Texture2D>("Sprite/white_space"));//space1 0
@@ -281,6 +283,7 @@ namespace Sokoban
 
             TitleSprite = Content.Load<Texture2D>("Sprite/Title");
             TargetSprite = Content.Load<Texture2D>("Sprite/flag 2x");//flag
+            FinalTargetSprite = Content.Load<Texture2D>("Sprite/Trophy");
             BGSprite = Content.Load<Texture2D>("Sprite/Background");
             StarSprite = Content.Load<Texture2D>("Sprite/New_Star");
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body_back"));
@@ -404,13 +407,13 @@ namespace Sokoban
                             AbilityBtn[i].rePos();
 
                         }
-                        
+
                         else if (NowAblitiesChosen < MaxAblitiesNum)
                         {
                             NowAblitiesChosen++;
                             AbilityBtn[i].ToogleChecked();
                             OnButtonClicked(AbilityBtn[i].Name);
-                         
+
                             AbilityBtn[i].buttonX = -75 + 100 * NowAblitiesChosen;
                             AbilityBtn[i].buttonY = 800;
                         }
@@ -434,20 +437,53 @@ namespace Sokoban
 
         bool isWin = false;
         double SecondsSinceWin = 0;
+        float exp(double a, double x, double b)
+        {
+            return MathF.Pow((float)a, (float)x) - (float)b;
+        }
+        private int _TMPSTARS;
         void DrawWinUI()
         {
             _spriteBatch.Draw(BGSprite, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
-            if (SecondsSinceWin > 1) _spriteBatch.Draw(StarSprite, new Vector2(350, 350), Color.White);
+            if (SecondsSinceWin > 0.5)
+            {
+                if (_TMPSTARS == 0)
+                {
+                    StarAudio.CreateInstance().Play();
+                    _TMPSTARS++;
+                }
+                _spriteBatch.Draw(StarSprite, new Vector2(50, 350), Color.White * 15 * ((float)SecondsSinceWin - 0.5f));
+            }
+            if (SecondsSinceWin > 1)
+            {
+                if (_TMPSTARS == 1)
+                {
+                    StarAudio.CreateInstance().Play();
+                    _TMPSTARS++;
+                }
+                _spriteBatch.Draw(StarSprite, new Vector2(312, 350), Color.White * 15 * ((float)SecondsSinceWin - 1f));
+            }
+            if (SecondsSinceWin > 1.5)
+            {
+                if (_TMPSTARS == 2)
+                {
+                    StarAudio.CreateInstance().Play();
+                    _TMPSTARS++;
+                }
+                _spriteBatch.Draw(StarSprite, new Vector2(575, 350), Color.White * 15 * ((float)SecondsSinceWin - 1.5f));
+            }
         }
         void ProcessWin(GameTime gameTime)
         {
             if (!isWin)
             {
+                _TMPSTARS = 0;
+                SecondsSinceWin = 0;
                 WinAudio.CreateInstance().Play();
             }
             isWin = true;
             SecondsSinceWin += gameTime.ElapsedGameTime.TotalSeconds;
-            if (SecondsSinceWin > 2)
+            if (SecondsSinceWin > 3.25f)
                 LoadLevel(NowLevelIndex + 1);
         }
         protected override void Update(GameTime gameTime)
@@ -475,7 +511,7 @@ namespace Sokoban
         {
             if (NowLevelIndex == 0)
             {
-                
+
                 _spriteBatch.DrawString(Arial32, "Move", new Vector2(620, 110), Color.Black);
                 //_spriteBatch.DrawString(Arial32, "Walk Down", new Vector2(610, 240), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 315), Color.Black);
@@ -568,7 +604,8 @@ namespace Sokoban
                         _spriteBatch.Draw(TarTexture, new Vector2(j * 64, i * 64 + 104), Color.White);
                     }
                 if (NowMap[TargetX, TargetY] == 0)
-                    _spriteBatch.Draw(TargetSprite, new Vector2(TargetY * 64, TargetX * 64 + 104), Color.White);
+                    _spriteBatch.Draw(NowLevelIndex + 1 < LevelConfig.MapList.Count ? TargetSprite : FinalTargetSprite,
+                        new Vector2(TargetY * 64, TargetX * 64 + 104), Color.White);
 
                 for (int i = 0; i < AbilityBtn.Count; i++)
                 {
@@ -577,12 +614,13 @@ namespace Sokoban
                 restartBtn.Draw();
                 undoBtn.Draw();
                 menuBtn.Draw();
-                if (NowLevelIndex == 0) {
+                if (NowLevelIndex == 0)
+                {
                     if (CanUp == false)
                     {
                         first_tutorial.Draw();
                     }
-                    else 
+                    else
                     {
                         second_tutorial.Draw();
                     }

@@ -90,5 +90,11 @@ namespace Sokoban
         {
             Game1.m_SpriteBatch.Draw(m_Texture, new Rectangle((int)ButtonX, (int)ButtonY, width_button, height_button), CalcColor());
         }
+
+        public void ResizeToNative()
+        {
+            height_button = m_Texture.Height;
+            width_button = m_Texture.Width;
+        }
     }
 }

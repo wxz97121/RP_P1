@@ -392,8 +392,8 @@ namespace Sokoban
         }
         void UpdateMouseInput()
         {
-            challengeBtn = new Button("challenge_button", 365, 350, 128, 128);
-            freestyleBtn = new Button("freestyle", 365, 550, 128, 128);
+            challengeBtn = new Button("challenge_button", 365 - 64, 350 - 64, 256, 256);
+            freestyleBtn = new Button("freestyle", 365 - 64, 550 - 64, 256, 256);
             if (CheckLMBClicked())
             {
                 for (int i = 0; i < AbilityBtn.Count; i++)
@@ -445,32 +445,32 @@ namespace Sokoban
         void DrawWinUI()
         {
             _spriteBatch.Draw(BGSprite, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
-            if (SecondsSinceWin > 0.5)
+            if (SecondsSinceWin > 0.75)
             {
                 if (_TMPSTARS == 0)
                 {
                     StarAudio.CreateInstance().Play();
                     _TMPSTARS++;
                 }
-                _spriteBatch.Draw(StarSprite, new Vector2(50, 350), Color.White * 15 * ((float)SecondsSinceWin - 0.5f));
+                _spriteBatch.Draw(StarSprite, new Vector2(40, 350), Color.White * 3.5f * ((float)SecondsSinceWin - 0.75f));
             }
-            if (SecondsSinceWin > 1)
+            if (SecondsSinceWin > 1.5)
             {
                 if (_TMPSTARS == 1)
                 {
                     StarAudio.CreateInstance().Play();
                     _TMPSTARS++;
                 }
-                _spriteBatch.Draw(StarSprite, new Vector2(312, 350), Color.White * 15 * ((float)SecondsSinceWin - 1f));
+                _spriteBatch.Draw(StarSprite, new Vector2(312, 350), Color.White * 3.5f * ((float)SecondsSinceWin - 1.5f));
             }
-            if (SecondsSinceWin > 1.5)
+            if (SecondsSinceWin > 2.25f)
             {
                 if (_TMPSTARS == 2)
                 {
                     StarAudio.CreateInstance().Play();
                     _TMPSTARS++;
                 }
-                _spriteBatch.Draw(StarSprite, new Vector2(575, 350), Color.White * 15 * ((float)SecondsSinceWin - 1.5f));
+                _spriteBatch.Draw(StarSprite, new Vector2(585, 350), Color.White * 3.5f * ((float)SecondsSinceWin - 2.25f));
             }
         }
         void ProcessWin(GameTime gameTime)
@@ -483,7 +483,7 @@ namespace Sokoban
             }
             isWin = true;
             SecondsSinceWin += gameTime.ElapsedGameTime.TotalSeconds;
-            if (SecondsSinceWin > 3.25f)
+            if (SecondsSinceWin > 4f)
                 LoadLevel(NowLevelIndex + 1);
         }
         protected override void Update(GameTime gameTime)
@@ -579,7 +579,60 @@ namespace Sokoban
                 _spriteBatch.DrawString(Arial32, "Multi Boxes", new Vector2(610, 390), Color.Black);
             }
         }
-
+        Button[] MenuAnimButtons = new Button[4];
+        int NowCount = 0;
+        double NextAnimTime = 0;
+        int[] MoveDistX = { 0, 0, -64, 64 };
+        int[] MoveDistY = { -64, 64, 0, 0 };
+        string[] AnimName = { "AnimUp", "AnimDown", "AnimLeft", "AnimRight" };
+        Random m_Random = new Random();
+        int? FindPos(string name)
+        {
+            for (int i = 0; i < 4; i++)
+                if (AnimName[i] == name) return i;
+            return null;
+        }
+        void DrawMenuAnimation(GameTime gameTime)
+        {
+            if (gameTime.TotalGameTime.Seconds > NextAnimTime)
+            {
+                NextAnimTime += 0.6f;
+                if (m_Random.NextDouble() > 0.5 && NowCount <= 3)
+                {
+                    int tmp = m_Random.Next(4);
+                    if (MenuAnimButtons[tmp] == null)
+                    {
+                        MenuAnimButtons[tmp] = new Button(AnimName[tmp], m_Random.Next(0, 700), m_Random.Next(0, 700));
+                        if (tmp == 0) MenuAnimButtons[tmp].buttonY = _graphics.PreferredBackBufferHeight;
+                        if (tmp == 1) MenuAnimButtons[tmp].buttonY = 0;
+                        if (tmp == 2) MenuAnimButtons[tmp].buttonX = _graphics.PreferredBackBufferWidth;
+                        if (tmp == 3) MenuAnimButtons[tmp].buttonX = 0;
+                        NowCount++;
+                    }
+                }
+                for (int i = 3; i >= 0; i--)
+                {
+                    if (MenuAnimButtons[i] == null || m_Random.NextDouble() > 0.8) continue;
+                    var m_anim = MenuAnimButtons[i];
+                    int Dir = (int)FindPos(m_anim.Name);
+                    m_anim.buttonX += MoveDistX[Dir];
+                    m_anim.buttonY += MoveDistY[Dir];
+                    if (m_anim.buttonX < 0 || m_anim.buttonX > _graphics.PreferredBackBufferWidth || m_anim.buttonY < 0 || m_anim.buttonY > _graphics.PreferredBackBufferHeight)
+                    {
+                        MenuAnimButtons[i] = null;
+                        NowCount--;
+                    }
+                }
+            }
+            foreach (var m_anim in MenuAnimButtons)
+            {
+                if (m_anim != null)
+                {
+                    m_anim.ResizeToNative();
+                    m_anim.Draw();
+                }
+            }
+        }
         protected override void Draw(GameTime gameTime)
         {
             //isMainMenu = true;
@@ -587,7 +640,8 @@ namespace Sokoban
             {
                 GraphicsDevice.Clear(Color.Gray);
                 _spriteBatch.Begin();
-                _spriteBatch.Draw(TitleSprite, new Vector2(0, 0), Color.White);
+                DrawMenuAnimation(gameTime);
+                //_spriteBatch.Draw(TitleSprite, new Vector2(0, 0), Color.White);
                 challengeBtn.Draw();
                 freestyleBtn.Draw();
                 _spriteBatch.End();

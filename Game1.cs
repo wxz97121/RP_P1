@@ -294,7 +294,7 @@ namespace Sokoban
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body Lside 2x"));
             PlayerSprite.Add(Content.Load<Texture2D>("Sprite/body_side"));
 
-            titileSprite= Content.Load<Texture2D>("Sprite/new_titile");
+            titileSprite = Content.Load<Texture2D>("Sprite/new_titile");
 
             Arial32 = Content.Load<SpriteFont>("Fonts/Arial32");
         }
@@ -443,15 +443,11 @@ namespace Sokoban
 
         bool isWin = false;
         double SecondsSinceWin = 0;
-        float exp(double a, double x, double b)
-        {
-            return MathF.Pow((float)a, (float)x) - (float)b;
-        }
         private int _TMPSTARS;
         void DrawWinUI()
         {
             _spriteBatch.Draw(BGSprite, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight), Color.White);
-            if (SecondsSinceWin > 0.75)
+            if (SecondsSinceWin > 0.75 && MinStepsOfThisLevel + 4 >= stepCount)
             {
                 if (_TMPSTARS == 0)
                 {
@@ -460,7 +456,7 @@ namespace Sokoban
                 }
                 _spriteBatch.Draw(StarSprite, new Vector2(40, 350), Color.White * 3.5f * ((float)SecondsSinceWin - 0.75f));
             }
-            if (SecondsSinceWin > 1.5)
+            if (SecondsSinceWin > 1.5 && MinStepsOfThisLevel + 2 >= stepCount)
             {
                 if (_TMPSTARS == 1)
                 {
@@ -469,7 +465,7 @@ namespace Sokoban
                 }
                 _spriteBatch.Draw(StarSprite, new Vector2(312, 350), Color.White * 3.5f * ((float)SecondsSinceWin - 1.5f));
             }
-            if (SecondsSinceWin > 2.25f)
+            if (SecondsSinceWin > 2.25f && MinStepsOfThisLevel >= stepCount)
             {
                 if (_TMPSTARS == 2)
                 {
@@ -598,7 +594,7 @@ namespace Sokoban
                 _spriteBatch.DrawString(Arial32, "Pull Box", new Vector2(640, 325), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Passive:", new Vector2(608, 385), Color.Black);
                 _spriteBatch.DrawString(Arial32, "Multi Boxes", new Vector2(608, 410), Color.Black);
-                
+
             }
         }
         Button[] MenuAnimButtons = new Button[4];
@@ -616,9 +612,9 @@ namespace Sokoban
         }
         void DrawMenuAnimation(GameTime gameTime)
         {
-            if (gameTime.TotalGameTime.Seconds > NextAnimTime)
+            if (gameTime.TotalGameTime.TotalSeconds > NextAnimTime)
             {
-                NextAnimTime += 0.6f;
+                NextAnimTime = gameTime.TotalGameTime.TotalSeconds + 0.75f;
                 if (m_Random.NextDouble() > 0.5 && NowCount <= 3)
                 {
                     int tmp = m_Random.Next(4);
@@ -716,7 +712,7 @@ namespace Sokoban
                 //draw button descriptions based on level
                 drawButtonLabels();
 
-                if(MinStepsOfThisLevel >= stepCount)
+                if (MinStepsOfThisLevel >= stepCount)
                 {
                     _spriteBatch.DrawString(Arial32, "Under " + MinStepsOfThisLevel + " steps: ", new Vector2(620, 10), Color.Black);
                     _spriteBatch.Draw(StarSprite, new Vector2(790, 11), null, Color.White, 0f, Vector2.Zero, 0.09f, SpriteEffects.None, 0f);
